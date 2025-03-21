@@ -52,7 +52,7 @@ def eval_tasks(tasks: list):
     task_result_sheet = list()
     task_size = len(tasks)
     task_success = 0
-    with ThreadPoolExecutor(max_workers=task_size) as executor:
+    with ThreadPoolExecutor(max_workers=8) as executor:
         _all_dones = executor.map(assign_and_run, tasks)
     for _re in _all_dones:
         _res = _re['result']

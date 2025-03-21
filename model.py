@@ -1,5 +1,5 @@
-from ceo import get_dashscope_model
+from ceo import get_openai_model
 from dotenv import load_dotenv
 
 load_dotenv()
-model = get_dashscope_model()
+model = get_openai_model()
