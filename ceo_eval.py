@@ -35,11 +35,12 @@ def assign_and_run(task: str) -> dict:
             AfterActionTaken(after_action_taken)
         )
     }
-    print(f'{task} done.')
+    final_res = 'success' if res['result'].success else 'failed'
+    print(f'{task} {final_res}.', res['result'].conclusion)
     return res
 
 
-def multi_step_test():
+def multi_step_task_test():
     task_result_sheet = list()
     task_size = len(multi_step_task_certain)
     task_success = 0
@@ -68,6 +69,6 @@ def multi_step_test():
 
 
 if __name__ == '__main__':
-    _success_rate, task_result_sheet = multi_step_test()
+    _success_rate, task_result_sheet = multi_step_task_test()
     print('success_rate:', _success_rate)
     pd.DataFrame(task_result_sheet).to_csv(f'./output/ceo_eval_{time.time()}.csv', index=False)
