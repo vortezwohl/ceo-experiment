@@ -40,7 +40,7 @@ def assign_and_run(_agent_and_task: tuple[Agent, str]) -> dict:
 def multi_step_test(_agent: Agent):
     task_result_sheet = list()
     task_size = len(multi_step_task_certain)
-    task_success = 0.0
+    task_success = 0
     agent_and_task_list = [(_agent, x) for x in multi_step_task_certain]
     with ThreadPoolExecutor(max_workers=task_size) as executor:
         _all_dones = executor.map(assign_and_run, agent_and_task_list)
@@ -54,8 +54,8 @@ def multi_step_test(_agent: Agent):
             'time_used': _res.time_used
         })
         if _res.success:
-            task_success += 1.0
-    success_rate = task_success + 1e-10 / task_size + 1e-10,
+            task_success += 1
+    success_rate = task_success/ task_size + 1e-3,
     task_result_sheet.append({
         'task': f'success_rate={success_rate}',
         'success': '',
