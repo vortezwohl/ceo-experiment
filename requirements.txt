@@ -1,1 +1,3 @@
 ceo-py
+python-dotenv
+pandas

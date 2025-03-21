@@ -1,5 +1,6 @@
 import random
 from ceo import ability
+from model import model
 
 CERTAIN = False
 
@@ -15,7 +16,7 @@ def toss_a_coin() -> bool:
     return True
 
 
-@ability
+@ability(model)
 def search(location: str, *args, **kwargs) -> str:
     # 搜索指定位置的物品或信息
     # :param location: 需要搜索的位置
@@ -25,7 +26,7 @@ def search(location: str, *args, **kwargs) -> str:
     return f'失败, 在"{location}"没有找到相关物品或信息。'
 
 
-@ability
+@ability(model)
 def move(destination: str, *args, **kwargs) -> str:
     # 移动到指定位置
     # :param destination: 目标位置
@@ -35,7 +36,7 @@ def move(destination: str, *args, **kwargs) -> str:
     return f"移动失败, 你留在了原位置。"
 
 
-@ability
+@ability(model)
 def use(item: str, action: str, *args, **kwargs) -> str:
     # 使用指定物品或工具进行操作
     # :param item: 需要使用的物品或工具
@@ -46,7 +47,7 @@ def use(item: str, action: str, *args, **kwargs) -> str:
     return f'使用"{item}"失败, 你可以考虑重新尝试'
 
 
-@ability
+@ability(model)
 def check(target: str, *args, **kwargs) -> str:
     # 检查指定物品或位置的状态
     # :param target: 需要检查的目标
