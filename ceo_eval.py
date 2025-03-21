@@ -24,26 +24,27 @@ def after_action_taken(agent: Agent, message: AfterActionTakenMessage):
     return message
 
 
-def assign_and_run(_agent_and_task: tuple[Agent, str]) -> dict:
-    print(f'{_agent_and_task[1]} start.')
+def assign_and_run(task: str) -> dict:
+    agent = Agent(abilities=[search, move, use, check], brain=model,
+                  personality=Personality.INQUISITIVE)
+    print(f'{task} assign to {agent.name}.')
     res = {
-        'task': _agent_and_task[1],
-        'result': _agent_and_task[0].assign(_agent_and_task[1]).just_do_it(
+        'task': task,
+        'result': agent.assign(task).just_do_it(
             BeforeActionTaken(before_action_taken),
             AfterActionTaken(after_action_taken)
         )
     }
-    print(f'{_agent_and_task[1]} done.')
+    print(f'{task} done.')
     return res
 
 
-def multi_step_test(_agent: Agent):
+def multi_step_test():
     task_result_sheet = list()
     task_size = len(multi_step_task_certain)
     task_success = 0
-    agent_and_task_list = [(_agent, x) for x in multi_step_task_certain]
     with ThreadPoolExecutor(max_workers=task_size) as executor:
-        _all_dones = executor.map(assign_and_run, agent_and_task_list)
+        _all_dones = executor.map(assign_and_run, multi_step_task_certain)
     for _re in _all_dones:
         _res = _re['result']
         task_result_sheet.append({
@@ -55,7 +56,7 @@ def multi_step_test(_agent: Agent):
         })
         if _res.success:
             task_success += 1
-    success_rate = task_success/ task_size + 1e-3,
+    success_rate = task_success / task_size + 1e-3
     task_result_sheet.append({
         'task': f'success_rate={success_rate}',
         'success': '',
@@ -67,7 +68,6 @@ def multi_step_test(_agent: Agent):
 
 
 if __name__ == '__main__':
-    agent = Agent(abilities=[search, move, use, check], brain=model,
-                  personality=Personality.INQUISITIVE)
-    _success_rate, task_result_sheet = multi_step_test(agent)
+    _success_rate, task_result_sheet = multi_step_test()
+    print('success_rate:', _success_rate)
     pd.DataFrame(task_result_sheet).to_csv(f'./output/ceo_eval_{time.time()}.csv', index=False)
