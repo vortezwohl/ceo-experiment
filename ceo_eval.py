@@ -8,19 +8,19 @@ from dotenv import load_dotenv
 import pandas as pd
 
 from ability import search, move, use, check
-from dataset import one_step_task, multi_step_task_certain, multi_step_task_uncertain
+from dataset import multi_step_task_certain, multi_step_task_uncertain
 from model import model
 
 load_dotenv()
 
 
 def before_action_taken(agent: Agent, message: BeforeActionTakenMessage):
-    print(f'Agent: {agent.name}, Next move: {message}')
+    # print(f'Agent: {agent.name}, Next move: {message}')
     return message
 
 
 def after_action_taken(agent: Agent, message: AfterActionTakenMessage):
-    print(f'Agent: {agent.name}, Action taken: {message}')
+    # print(f'Agent: {agent.name}, Action taken: {message}')
     return message
 
 
@@ -37,11 +37,11 @@ def assign_and_run(_agent_and_task: tuple[Agent, str]) -> dict:
     return res
 
 
-def one_step_test(_agent: Agent):
+def multi_step_test(_agent: Agent):
     task_result_sheet = list()
-    task_size = len(one_step_task)
+    task_size = len(multi_step_task_certain)
     task_success = 0.0
-    agent_and_task_list = [(_agent, f'单步任务: {x}') for x in one_step_task]
+    agent_and_task_list = [(_agent, x) for x in multi_step_task_certain]
     with ThreadPoolExecutor(max_workers=task_size) as executor:
         _all_dones = executor.map(assign_and_run, agent_and_task_list)
     for _re in _all_dones:
@@ -69,5 +69,5 @@ def one_step_test(_agent: Agent):
 if __name__ == '__main__':
     agent = Agent(abilities=[search, move, use, check], brain=model,
                   personality=Personality.INQUISITIVE)
-    _success_rate, task_result_sheet = one_step_test(agent)
+    _success_rate, task_result_sheet = multi_step_test(agent)
     pd.DataFrame(task_result_sheet).to_csv(f'./output/ceo_eval_{time.time()}.csv', index=False)
