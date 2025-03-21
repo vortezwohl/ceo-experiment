@@ -2,7 +2,7 @@ import os
 import random
 
 from ceo import ability
-from ceo_eval.model import model
+from model import model
 
 
 def toss_a_coin() -> bool:

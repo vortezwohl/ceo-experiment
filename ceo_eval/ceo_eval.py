@@ -9,9 +9,8 @@ from ceo.message import BeforeActionTakenMessage, AfterActionTakenMessage
 from dotenv import load_dotenv
 import pandas as pd
 
-from ability import search, move, use, check
+from ability import search, move, use, check, model
 from dataset import one_step_task, multi_step_task_certain, multi_step_task_uncertain
-from ceo_eval.model import model
 
 load_dotenv()
 
