@@ -2,7 +2,7 @@ import random
 from ceo import ability
 from model import model
 
-CERTAIN = False
+CERTAIN = True
 
 
 def toss_a_coin() -> bool:
