@@ -1,3 +1,5 @@
+import json
+import os
 import time
 from concurrent.futures import ThreadPoolExecutor
 
@@ -28,13 +30,19 @@ def assign_and_run(task: str) -> dict:
     agent = Agent(abilities=[search, move, use, check], brain=model,
                   personality=Personality.INQUISITIVE)
     print(f'{task} assign to {agent.name}.')
-    res = {
-        'task': task,
-        'result': agent.assign(task).just_do_it(
-            BeforeActionTaken(before_action_taken),
-            AfterActionTaken(after_action_taken)
-        )
-    }
+    res = dict()
+    while True:
+        try:
+            res = {
+                'task': task,
+                'result': agent.assign(task).just_do_it(
+                    BeforeActionTaken(before_action_taken),
+                    AfterActionTaken(after_action_taken)
+                )
+            }
+            break
+        except json.decoder.JSONDecodeError:
+            continue
     final_res = 'success' if res['result'].success else 'failed'
     print(f'{task} {final_res}.', res['result'].conclusion)
     return res
@@ -68,7 +76,16 @@ def eval_tasks(tasks: list):
     return success_rate, task_result_sheet
 
 
+# noinspection PyStatementEffect
 if __name__ == '__main__':
+    var = os.environ['CERTAIN'] == 'true'
     _success_rate, task_result_sheet = eval_tasks(one_step_task)
-    print('success_rate:', _success_rate)
-    pd.DataFrame(task_result_sheet).to_csv(f'./output/ceo_eval_{time.time()}.csv', index=False)
+    print('[one-step] success_rate:', _success_rate)
+    pd.DataFrame(task_result_sheet).to_csv(f'./output/ceo_eval_one_step_{time.time()}.csv', index=False)
+    _success_rate, task_result_sheet = eval_tasks(multi_step_task_certain)
+    print('[multi-step-certain] success_rate:', _success_rate)
+    pd.DataFrame(task_result_sheet).to_csv(f'./output/ceo_eval_multi_step_certain_{time.time()}.csv', index=False)
+    var = os.environ['CERTAIN'] == 'false'
+    _success_rate, task_result_sheet = eval_tasks(multi_step_task_uncertain)
+    print('[multi-step-uncertain] success_rate:', _success_rate)
+    pd.DataFrame(task_result_sheet).to_csv(f'./output/ceo_eval_multi_step_uncertain_{time.time()}.csv', index=False)
