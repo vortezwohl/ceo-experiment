@@ -1,3 +1,4 @@
+import asyncio
 import os
 import time
 from concurrent.futures import ThreadPoolExecutor
@@ -5,7 +6,6 @@ from concurrent.futures import ThreadPoolExecutor
 import pandas as pd
 from autogen_agentchat.agents import AssistantAgent
 from autogen_ext.models.openai import OpenAIChatCompletionClient
-from ceo import Ability
 from dotenv import load_dotenv
 
 from dataset import one_step_task, multi_step_task_certain, multi_step_task_uncertain
@@ -20,7 +20,7 @@ model_client = OpenAIChatCompletionClient(
 )
 
 
-async def assign_and_run(task: str) -> dict:
+def assign_and_run(task: str) -> dict:
     agent = AssistantAgent(
         name="agent",
         model_client=model_client,
@@ -30,7 +30,7 @@ async def assign_and_run(task: str) -> dict:
         model_client_stream=True,  # Enable streaming tokens from the model client.
     )
     print(f'{task} assigned')
-    _res = await agent.run(task=task)
+    _res = asyncio.run(agent.run(task=task))
     _res_str = _res.messages[-1].content
     success = judge(task, _res_str)
     final_res = 'success' if success else 'failed'
@@ -42,15 +42,12 @@ async def assign_and_run(task: str) -> dict:
     }
 
 
-assign_and_run_sync = Ability(assign_and_run)
-
-
 def eval_tasks(tasks: list):
     task_result_sheet = list()
     task_size = len(tasks)
     task_success = 0
     with ThreadPoolExecutor(max_workers=8) as executor:
-        _results = executor.map(assign_and_run_sync, tasks)
+        _results = executor.map(assign_and_run, tasks)
     for _re in _results:
         task_result_sheet.append({
             'task': _re['task'],
