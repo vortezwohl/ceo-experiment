@@ -1,3 +1,5 @@
+import json
+
 from ceo_eval.model import model
 
 
@@ -9,5 +11,5 @@ def judge(_input: str, _output: str) -> bool:
         '用户请求': _input,
         '执行结果': _output
     }
-    response = model.invoke(prompt).content
+    response = model.invoke(json.dumps(prompt, ensure_ascii=False)).content
     return True if 'true' in response.lower() else False

@@ -4,4 +4,6 @@ pandas==2.2.3
 autogen-agentchat==0.4.9.2
 autogen-ext==0.4.9.2
 langgraph==0.3.18
+langchain==0.3.21
 crewai==0.108.0
+crewai-tools==0.38.1
