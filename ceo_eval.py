@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 import pandas as pd
 
 from ability import search, move, use, check
-from dataset import multi_step_task_certain, multi_step_task_uncertain
+from dataset import one_step_task, multi_step_task_certain, multi_step_task_uncertain
 from model import model
 
 load_dotenv()
@@ -40,12 +40,12 @@ def assign_and_run(task: str) -> dict:
     return res
 
 
-def multi_step_task_test():
+def eval_tasks(tasks: list):
     task_result_sheet = list()
-    task_size = len(multi_step_task_certain)
+    task_size = len(tasks)
     task_success = 0
     with ThreadPoolExecutor(max_workers=task_size) as executor:
-        _all_dones = executor.map(assign_and_run, multi_step_task_certain)
+        _all_dones = executor.map(assign_and_run, tasks)
     for _re in _all_dones:
         _res = _re['result']
         task_result_sheet.append({
@@ -69,6 +69,6 @@ def multi_step_task_test():
 
 
 if __name__ == '__main__':
-    _success_rate, task_result_sheet = multi_step_task_test()
+    _success_rate, task_result_sheet = eval_tasks(one_step_task)
     print('success_rate:', _success_rate)
     pd.DataFrame(task_result_sheet).to_csv(f'./output/ceo_eval_{time.time()}.csv', index=False)
