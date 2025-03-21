@@ -25,13 +25,16 @@ def after_action_taken(agent: Agent, message: AfterActionTakenMessage):
 
 
 def assign_and_run(_agent_and_task: tuple[Agent, str]) -> dict:
-    return {
+    print(f'{_agent_and_task[1]} start.')
+    res = {
         'task': _agent_and_task[1],
         'result': _agent_and_task[0].assign(_agent_and_task[1]).just_do_it(
             BeforeActionTaken(before_action_taken),
             AfterActionTaken(after_action_taken)
         )
     }
+    print(f'{_agent_and_task[1]} done.')
+    return res
 
 
 def one_step_test(_agent: Agent):
@@ -52,11 +55,19 @@ def one_step_test(_agent: Agent):
         })
         if _res.success:
             task_success += 1.0
-    return task_success + 1e-10 / task_size + 1e-10, task_result_sheet
+    success_rate = task_success + 1e-10 / task_size + 1e-10,
+    task_result_sheet.append({
+        'task': f'success_rate={success_rate}',
+        'success': '',
+        'conclusion': '',
+        'step_count': '',
+        'time_used': ''
+    })
+    return success_rate, task_result_sheet
 
 
 if __name__ == '__main__':
     agent = Agent(abilities=[search, move, use, check], brain=model,
                   personality=Personality.INQUISITIVE)
-    success_rate, task_result_sheet = one_step_test(agent)
+    _success_rate, task_result_sheet = one_step_test(agent)
     pd.DataFrame(task_result_sheet).to_csv(f'./output/ceo_eval_{time.time()}.csv', index=False)
