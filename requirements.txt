@@ -1,3 +1,7 @@
-ceo-py
+ceo-py==0.12.3rc0
 python-dotenv
-pandas
+pandas==2.2.3
+autogen-agentchat==0.4.9.2
+autogen-ext==0.4.9.2
+langgraph==0.3.18
+crewai==0.108.0

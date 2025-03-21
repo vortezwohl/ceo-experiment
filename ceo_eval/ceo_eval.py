@@ -11,7 +11,7 @@ import pandas as pd
 
 from ability import search, move, use, check
 from dataset import one_step_task, multi_step_task_certain, multi_step_task_uncertain
-from model import model
+from ceo_eval.model import model
 
 load_dotenv()
 
