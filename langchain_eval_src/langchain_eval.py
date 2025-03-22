@@ -9,7 +9,7 @@ from langchain_openai import ChatOpenAI
 
 from dataset import one_step_task, multi_step_task, multi_step_task_with_possible_failure
 from tools import tools
-from judge import judge
+from judge import judge, api_key, model_name, base_url
 
 base_prompt = hub.pull("langchain-ai/react-agent-template")
 prompt = base_prompt.partial(instructions="")
@@ -18,7 +18,9 @@ prompt = base_prompt.partial(instructions="")
 def assign_and_run(task: str) -> dict:
     llm = ChatOpenAI(
         temperature=0,
-        model="gpt-4o-mini"
+        base_url=base_url,
+        model=model_name,
+        api_key=api_key
     )
     agent = create_react_agent(
         prompt=prompt,
