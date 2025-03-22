@@ -31,7 +31,7 @@ one_step_task = [
     '移动到花园'
 ]
 
-multi_step_task_certain = [
+multi_step_task = [
     '搜索桌子上的钥匙，然后移动到客厅，最后使用遥控器打开电视',
     '移动到厨房，检查冰箱里是否有牛奶，如果没有则搜索超市货架',
     '搜索书架上的书，移动到卧室，使用灯的开关打开灯',
@@ -64,7 +64,7 @@ multi_step_task_certain = [
     '移动到厨房，检查水壶是否装满水，使用炉灶烧水'
 ]
 
-multi_step_task_uncertain = [
+multi_step_task_with_possible_failure = [
     '搜索桌子上的钥匙，如果找不到则搜索抽屉，找到后移动到客厅，使用遥控器打开电视',
     '移动到厨房，检查冰箱里是否有牛奶，如果没有则移动到超市，搜索货架',
     '搜索书架上的书，如果找不到则搜索储物间，找到后移动到卧室，使用灯的开关打开灯',
@@ -99,5 +99,5 @@ multi_step_task_uncertain = [
 
 if __name__ == '__main__':
     print(len(one_step_task))
-    print(len(multi_step_task_certain))
-    print(len(multi_step_task_uncertain))
+    print(len(multi_step_task))
+    print(len(multi_step_task_with_possible_failure))

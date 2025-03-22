@@ -8,7 +8,7 @@ from autogen_agentchat.agents import AssistantAgent
 from autogen_ext.models.openai import OpenAIChatCompletionClient
 from dotenv import load_dotenv
 
-from dataset import one_step_task, multi_step_task_certain, multi_step_task_uncertain
+from dataset import one_step_task, multi_step_task, multi_step_task_with_possible_failure
 from judge import judge
 from tools import search, move, use, check
 
@@ -77,10 +77,10 @@ if __name__ == '__main__':
         _success_rate, task_result_sheet = eval_tasks(one_step_task)
         print('[one-step] success_rate:', _success_rate)
         pd.DataFrame(task_result_sheet).to_csv(f'{_dir}/ceo_eval_one_step_{time.time()}.csv', index=False)
-        _success_rate, task_result_sheet = eval_tasks(multi_step_task_certain)
+        _success_rate, task_result_sheet = eval_tasks(multi_step_task)
         print('[multi-step-certain] success_rate:', _success_rate)
         pd.DataFrame(task_result_sheet).to_csv(f'{_dir}/ceo_eval_multi_step_certain_{time.time()}.csv', index=False)
         os.environ['CERTAIN'] = 'false'
-        _success_rate, task_result_sheet = eval_tasks(multi_step_task_uncertain)
+        _success_rate, task_result_sheet = eval_tasks(multi_step_task_with_possible_failure)
         print('[multi-step-uncertain] success_rate:', _success_rate)
         pd.DataFrame(task_result_sheet).to_csv(f'{_dir}/ceo_eval_multi_step_uncertain_{time.time()}.csv', index=False)
