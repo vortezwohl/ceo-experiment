@@ -1,6 +1,6 @@
 import json
 
-from ceo_eval.model import model
+from ceo_eval_src.model import model
 
 
 def judge(_input: str, _output: str) -> bool:

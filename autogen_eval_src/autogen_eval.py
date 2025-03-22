@@ -67,19 +67,20 @@ def eval_tasks(tasks: list):
 
 # noinspection PyStatementEffect
 if __name__ == '__main__':
-    if not os.path.exists('./output'):
-        os.mkdir('./output')
-    _dir = f'./output/{time.time()}'
-    if not os.path.exists(_dir):
-        os.mkdir(_dir)
-    os.environ['CERTAIN'] = 'true'
-    _success_rate, task_result_sheet = eval_tasks(one_step_task)
-    print('[one-step] success_rate:', _success_rate)
-    pd.DataFrame(task_result_sheet).to_csv(f'{_dir}/ceo_eval_one_step_{time.time()}.csv', index=False)
-    _success_rate, task_result_sheet = eval_tasks(multi_step_task_certain)
-    print('[multi-step-certain] success_rate:', _success_rate)
-    pd.DataFrame(task_result_sheet).to_csv(f'{_dir}/ceo_eval_multi_step_certain_{time.time()}.csv', index=False)
-    os.environ['CERTAIN'] = 'false'
-    _success_rate, task_result_sheet = eval_tasks(multi_step_task_uncertain)
-    print('[multi-step-uncertain] success_rate:', _success_rate)
-    pd.DataFrame(task_result_sheet).to_csv(f'{_dir}/ceo_eval_multi_step_uncertain_{time.time()}.csv', index=False)
+    for _ in range(10):
+        if not os.path.exists('./output'):
+            os.mkdir('./output')
+        _dir = f'./output/{time.time()}'
+        if not os.path.exists(_dir):
+            os.mkdir(_dir)
+        os.environ['CERTAIN'] = 'true'
+        _success_rate, task_result_sheet = eval_tasks(one_step_task)
+        print('[one-step] success_rate:', _success_rate)
+        pd.DataFrame(task_result_sheet).to_csv(f'{_dir}/ceo_eval_one_step_{time.time()}.csv', index=False)
+        _success_rate, task_result_sheet = eval_tasks(multi_step_task_certain)
+        print('[multi-step-certain] success_rate:', _success_rate)
+        pd.DataFrame(task_result_sheet).to_csv(f'{_dir}/ceo_eval_multi_step_certain_{time.time()}.csv', index=False)
+        os.environ['CERTAIN'] = 'false'
+        _success_rate, task_result_sheet = eval_tasks(multi_step_task_uncertain)
+        print('[multi-step-uncertain] success_rate:', _success_rate)
+        pd.DataFrame(task_result_sheet).to_csv(f'{_dir}/ceo_eval_multi_step_uncertain_{time.time()}.csv', index=False)

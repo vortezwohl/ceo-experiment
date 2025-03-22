@@ -9,8 +9,10 @@ from ceo.message import BeforeActionTakenMessage, AfterActionTakenMessage
 from dotenv import load_dotenv
 import pandas as pd
 
+from judge import judge
 from ability import search, move, use, check, model
 from dataset import one_step_task, multi_step_task_certain, multi_step_task_uncertain
+
 
 load_dotenv()
 
@@ -42,7 +44,8 @@ def assign_and_run(task: str) -> dict:
             break
         except json.decoder.JSONDecodeError:
             continue
-    final_res = 'success' if res['result'].success else 'failed'
+    success = judge(task, res['result'].conclusion)
+    final_res = 'success' if success else 'failed'
     print(f'{task} {final_res}.', res['result'].conclusion)
     return res
 
