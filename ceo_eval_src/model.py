@@ -1,3 +1,5 @@
+import os
+
 from ceo import get_openai_model
 from dotenv import load_dotenv
 

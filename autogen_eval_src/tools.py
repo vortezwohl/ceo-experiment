@@ -13,7 +13,7 @@ def toss_a_coin() -> bool:
     return True
 
 
-def search(location: str) -> str:
+def _search(location: str) -> str:
     """
     搜索指定位置的物品或信息
     :param location: 需要搜索的位置.

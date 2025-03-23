@@ -6,13 +6,14 @@ from concurrent.futures import ThreadPoolExecutor
 
 import pandas as pd
 from autogen_agentchat.agents import AssistantAgent
+from autogen_core.models import ModelFamily
 from autogen_ext.models.openai import OpenAIChatCompletionClient
 from dotenv import load_dotenv
 from openai import BadRequestError
 
 from dataset import one_step_task, multi_step_task, multi_step_task_with_possible_failure
 from judge import judge, api_key, base_url, model_name
-from tools import search, move, use, check
+from tools import _search, move, use, check
 
 load_dotenv()
 
@@ -20,7 +21,13 @@ load_dotenv()
 model_client = OpenAIChatCompletionClient(
     model=model_name,
     base_url=base_url,
-    api_key=api_key
+    api_key=api_key,
+    model_info={
+        "vision": False,
+        "function_calling": True,
+        "json_output": False,
+        "family": ModelFamily.UNKNOWN,
+    }
 )
 
 
@@ -28,7 +35,7 @@ def assign_and_run(task: str) -> dict:
     agent = AssistantAgent(
         name="agent",
         model_client=model_client,
-        tools=[search, move, use, check],
+        tools=[_search, move, use, check],
         system_message="You are a helpful assistant.",
         reflect_on_tool_use=True
     )
