@@ -15,7 +15,7 @@ def toss_a_coin() -> bool:
     return True
 
 
-def search(location: str, *args, **kwargs) -> str:
+def _search(location: str, *args, **kwargs) -> str:
     """
     搜索指定位置的物品或信息
     :param location: 需要搜索的位置
@@ -62,9 +62,9 @@ def check(target: str, *args, **kwargs) -> str:
 
 tools = [
     Tool(
-        name=search.__name__,
-        description=search.__doc__,
-        func=search
+        name=_search.__name__,
+        description=_search.__doc__,
+        func=_search
     ),
     Tool(
         name=move.__name__,
