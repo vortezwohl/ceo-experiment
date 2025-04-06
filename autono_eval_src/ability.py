@@ -1,7 +1,7 @@
 import os
 import random
 
-from ceo import ability
+from autono import ability
 from model import model
 
 

@@ -42,7 +42,7 @@ htmlcov/
 .nox/
 .coverage
 .coverage.*
-ceo_eval_src/.cache
+autono_eval_src/.cache
 nosetests.xml
 coverage.xml
 *.cover
@@ -165,7 +165,7 @@ cython_debug/
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
-#.idea/
+.idea/
 
 # Ruff stuff:
 .ruff_cache/

@@ -3,9 +3,9 @@ import os
 import time
 from concurrent.futures import ThreadPoolExecutor
 
-from ceo import Agent, Personality
-from ceo.brain.hook import BeforeActionTaken, AfterActionTaken
-from ceo.message import BeforeActionTakenMessage, AfterActionTakenMessage
+from autono import Agent, Personality
+from autono.brain.hook import BeforeActionTaken, AfterActionTaken
+from autono.message import BeforeActionTakenMessage, AfterActionTakenMessage
 from dotenv import load_dotenv
 import pandas as pd
 
@@ -88,11 +88,11 @@ if __name__ == '__main__':
     os.environ['CERTAIN'] = 'true'
     _success_rate, task_result_sheet = eval_tasks(one_step_task)
     print('[one-step] success_rate:', _success_rate)
-    pd.DataFrame(task_result_sheet).to_csv(f'{_dir}/ceo_eval_one_step_{time.time()}.csv', index=False)
+    pd.DataFrame(task_result_sheet).to_csv(f'{_dir}/eval_one_step_{time.time()}.csv', index=False)
     _success_rate, task_result_sheet = eval_tasks(multi_step_task)
     print('[multi-step-certain] success_rate:', _success_rate)
-    pd.DataFrame(task_result_sheet).to_csv(f'{_dir}/ceo_eval_multi_step_certain_{time.time()}.csv', index=False)
+    pd.DataFrame(task_result_sheet).to_csv(f'{_dir}/eval_multi_step_certain_{time.time()}.csv', index=False)
     os.environ['CERTAIN'] = 'false'
     _success_rate, task_result_sheet = eval_tasks(multi_step_task_with_possible_failure)
     print('[multi-step-uncertain] success_rate:', _success_rate)
-    pd.DataFrame(task_result_sheet).to_csv(f'{_dir}/ceo_eval_multi_step_uncertain_{time.time()}.csv', index=False)
+    pd.DataFrame(task_result_sheet).to_csv(f'{_dir}/eval_multi_step_uncertain_{time.time()}.csv', index=False)

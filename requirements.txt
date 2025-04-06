@@ -1,4 +1,4 @@
-ceo-py==0.12.3rc0
+autono==1.0.0
 python-dotenv
 pandas==2.2.3
 autogen-agentchat==0.4.9.2
